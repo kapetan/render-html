@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>render-html</title>
+
+		<script type="text/javascript" src="bower_components/platform/platform.js"></script>
+
+		<link rel="import" href="dist/render-html.html">
+	</head>
+	<body unresolved>
+		<h1>HTML to image</h1>
+
+		<render-html width="600" height="300">
+			<style type="text/css">
+				#main {
+					background: blue;
+				}
+				#main a {
+					color: white;
+				}
+			</style>
+
+			<div id="main">
+				<h1>Hello You</h1>
+
+				<p>What is <b>your</b> name?</p>
+				<p><a href="http://google.com">Google</a></p>
+			</div>
+		</render-html>
+
+		<script type="text/javascript">
+			(function() {
+				var main = document.getElementById('main');
+
+				var p = document.createElement('p');
+				p.innerHTML = 'Regards World';
+
+				main.appendChild(p);
+			}());
+		</script>
+	</body>
+</html>

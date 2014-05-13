@@ -1,0 +1,17 @@
+{
+  "name": "render-html",
+  "version": "0.0.1",
+  "description": "Development server for the render-html web component",
+  "main": "./server.js",
+  "dependencies": {
+    "root": "~0.7.1",
+    "send": "~0.3.0",
+    "phantom-render-stream": "~0.4.0",
+    "browserify": "~4.1.2",
+    "pump": "~0.3.2",
+    "after-all": "~1.0.0",
+    "chokidar": "~0.8.2",
+    "xhr": "~1.6.1",
+    "brfs": "~1.1.1"
+  }
+}
