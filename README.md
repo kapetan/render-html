@@ -4,6 +4,13 @@ A small web component for rendering HTML as images. It depends on a server for c
 
 # Usage
 
+Dependencies are managed with `bower`. To run the `index.js` example.
+
+	$ npm install -g bower
+	$ bower install
+	$ npm install
+	$ node .
+
 Render HTML using the `src` attribute
 
 ```html
