@@ -10,7 +10,7 @@
 	<body unresolved>
 		<h1>HTML to image</h1>
 
-		<render-html width="600" height="300">
+		<render-html id="render" width="600" height="300">
 			<style type="text/css">
 				#main {
 					background: blue;
@@ -36,6 +36,30 @@
 				p.innerHTML = 'Regards World';
 
 				main.appendChild(p);
+			}());
+		</script>
+
+		<script type="text/javascript">
+			(function() {
+				var render = document.getElementById('render');
+
+				render.addEventListener('load', function appendOnload() {
+					render.removeEventListener('load', appendOnload);
+
+					var p = document.createElement('p');
+					p.innerHTML = 'Another one';
+
+					render.appendChild(p);
+
+					setTimeout(function() {
+						render.addEventListener('load', function srcOnload() {
+							render.removeEventListener('load', srcOnload);
+
+							render.width = 1024;
+							render.src = 'http://google.com';
+						});
+					}, 10);
+				});
 			}());
 		</script>
 	</body>
