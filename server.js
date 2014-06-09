@@ -12,7 +12,6 @@ var phantom = require('phantom-render-stream');
 var build = require('./build');
 
 var PORT = 10102;
-var URL = util.format('http://localhost:%s/tmp/', PORT);
 var DIRECTORY = path.join(os.tmpdir(), 'render-html');
 
 var app = root();
@@ -39,6 +38,14 @@ var filename = (function() {
 		return util.format('%s_%s.%s', Date.now(), counter++, extension || 'bin');
 	};
 }());
+
+var absoluteUrl = function(request, path) {
+	var https = request.connection.encrypted;
+	var host = request.headers.host;
+
+	if(!host) return path;
+	return util.format('%s://%s%s', https ? 'https' : 'http', host, path);
+};
 
 app.use('request.image', { getter: true }, function() {
 	var query = this.query;
@@ -73,12 +80,12 @@ app.post('/render', function(request, response) {
 	request
 		.pipe(fs.createWriteStream(file, { encoding: 'utf-8' }))
 		.on('finish', function() {
-			var url = URL + name;
+			var url = absoluteUrl(request, '/tmp/' + name);
 			var image = request.image;
 
 			delete image.mime;
 			image.url = url;
-			url = ('/render?' + qs.stringify(image));
+			url = absoluteUrl(request, '/render?' + qs.stringify(image));
 
 			response.setHeader('Content-Type', 'plain/text; charset=utf-8');
 			response.send(url);
