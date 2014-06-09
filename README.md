@@ -34,6 +34,6 @@ Render HTML contained in the tags
 </render-html>
 ```
 
-Attributes `width`, `height` and `format` are also available. They are passed to `phantom-render-stream` as options.
+Attributes `width`, `height` and `format` are also available. They are passed to `phantom-render-stream` as options. The pdf format type isn't supported at the moment.
 
 [prs]: https://github.com/e-conomic/phantom-render-stream "phantom-render-stream"
