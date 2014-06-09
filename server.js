@@ -39,13 +39,13 @@ var filename = (function() {
 	};
 }());
 
-var absoluteUrl = function(request, path) {
-	var https = request.connection.encrypted;
-	var host = request.headers.host;
+app.use('request.absoluteUrl', function(path) {
+	var https = this.connection.encrypted;
+	var host = this.headers.host;
 
 	if(!host) return path;
 	return util.format('%s://%s%s', https ? 'https' : 'http', host, path);
-};
+});
 
 app.use('request.image', { getter: true }, function() {
 	var query = this.query;
@@ -58,6 +58,19 @@ app.use('request.image', { getter: true }, function() {
 	image.mime = util.format('image/%s', image.format || 'jpeg');
 
 	return image;
+});
+
+app.use('response.cors', function() {
+	this.setHeader('Access-Control-Allow-Origin', '*');
+	this.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+	this.setHeader('Access-Control-Expose-Headers', 'Location, Date, Content-Length, Content-Type, ETag, Last-Modified');
+});
+
+app.all(function(request, response, next) {
+	response.cors();
+
+	if(request.method === 'OPTIONS') response.end();
+	else next();
 });
 
 app.get('/render', function(request, response) {
@@ -80,12 +93,12 @@ app.post('/render', function(request, response) {
 	request
 		.pipe(fs.createWriteStream(file, { encoding: 'utf-8' }))
 		.on('finish', function() {
-			var url = absoluteUrl(request, '/tmp/' + name);
+			var url = request.absoluteUrl('/tmp/' + name);
 			var image = request.image;
 
 			delete image.mime;
 			image.url = url;
-			url = absoluteUrl(request, '/render?' + qs.stringify(image));
+			url = request.absoluteUrl('/render?' + qs.stringify(image));
 
 			response.setHeader('Content-Type', 'plain/text; charset=utf-8');
 			response.send(url);

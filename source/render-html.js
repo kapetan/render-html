@@ -18,9 +18,36 @@ var toJSON = function(source, attributes) {
 var formatUrl = function(url, query) {
 	query = qs.stringify(query);
 
+	var host = getHost();
+	var https = window.location.protocol === 'https:';
+
 	if(!query) return url;
-	return url + (/\?/.test(url) ? '&' : '?') + query;
+	url = url + (/\?/.test(url) ? '&' : '?') + query;
+
+	if(!host) return url;
+	return util.format('%s://%s%s', https ? 'https' : 'http', host, url);
 };
+
+var getHost = (function() {
+	var host;
+
+	return function() {
+		if(host !== undefined) return host;
+
+		var tags = document.getElementsByTagName('meta');
+
+		for(var i = 0; i < tags.length; i++) {
+			var tag = tags[i];
+
+			if(tag.name === 'render-html-host') {
+				host = tag.content;
+				return host;
+			}
+		}
+
+		host = '';
+	};
+}());
 
 Polymer('render-html', {
 	width: 1280,
