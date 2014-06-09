@@ -6,7 +6,7 @@
   "dependencies": {
     "root": "~0.7.1",
     "send": "~0.3.0",
-    "phantom-render-stream": "~0.4.0",
+    "phantom-render-stream": "~0.6.0",
     "browserify": "~4.1.2",
     "pump": "~0.3.2",
     "after-all": "~1.0.0",
