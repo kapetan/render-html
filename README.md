@@ -2,7 +2,7 @@
 
 A small web component for rendering HTML as images. It depends on a server for converting the HTML. The development server is written in Node.js, and uses [phantom-render-stream][prs] to create the images.
 
-The actual web component is written using [Polyer][polymer].
+The actual web component is written using [Polymer][polymer].
 
 # Usage
 
