@@ -11,7 +11,7 @@ var phantom = require('phantom-render-stream');
 
 var build = require('./build');
 
-var PORT = 10102;
+var PORT = process.env.PORT || 10102;
 var DIRECTORY = path.join(os.tmpdir(), 'render-html');
 
 var app = root();
